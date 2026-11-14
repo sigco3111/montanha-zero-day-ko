@@ -1,0 +1,36 @@
+MIT License
+
+Copyright (c) 2026 Tiago Vilas Boas
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+The MIT license above covers the source code. The artwork, characters and
+likenesses (everything in assets/, icons/ and docs/screenshots/, plus the
+names and story of Montanha, Gle and BYTE) are © 2026 Tiago Vilas Boas, all
+rights reserved.
+
+This repository is an unofficial Korean translation. It contains the upstream
+source code (MIT) with Korean translation patches, and it does NOT contain or
+redistribute any of the rights-reserved artwork or audio: the game loads those
+directly from the original author's GitHub Pages (see README, "라이선스와 에셋 처리").
+
+Korean translation (js/i18n.ko.js, docs/, tools/ko_build.py and the patch
+changes): sigco3111.
