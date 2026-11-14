@@ -1,0 +1,33 @@
+upstream commit: d11866be57ff770ce88680eb87c73458764604f6
+copied upstream code files: 26
+ASSET_BASE = https://tiagovilasboas.github.io/montanha-zero-day/
+patch js/assets.js     asset-base             OK
+patch js/assets.js     anims-json             OK
+patch js/i18n.js       ko-import              OK
+patch js/i18n.js       ko-ui-table            OK
+patch js/i18n.js       ko-lines-table         OK
+patch js/i18n.js       browser-is-korean      OK
+patch js/i18n.js       detect-saved           OK
+patch js/i18n.js       detect-korean          OK
+patch js/i18n.js       tr-korean              OK
+patch js/i18n.js       dom-lang-ko            OK
+patch js/i18n.js       toggle-3-way           OK
+patch js/i18n.js       lang-switch-label      OK
+patch js/main.js       no-service-worker      OK
+canvas font strings patched in files: 1
+patch css/style.css    font-display-ko        OK
+patch css/style.css    font-body-ko           OK
+patch css/style.css    ko-block                 OK
+patch index.html       drop-google-fonts      OK
+patch index.html       drop-manifest-link     OK
+patch index.html       drop-icon-links        MISS(2/1)
+asset HEAD check: 33 urls, 0 problems 
+CORS https://tiagovilasboas.github.io/montanha-zero-day/assets/anims.json origin=- -> 200 acao=*
+CORS https://tiagovilasboas.github.io/montanha-zero-day/assets/anims.json origin=https://sigco3111.github.io -> 200 acao=*
+absent as expected: sw.js                True
+absent as expected: manifest.webmanifest True
+absent as expected: build.py             True
+absent as expected: game.html            True
+external/root-absolute references: 0 []
+hard-coded local asset paths left: 0 []
+FAILED PATCHES: 0 []
