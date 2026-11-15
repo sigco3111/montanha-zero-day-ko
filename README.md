@@ -2,103 +2,148 @@
 
 *그가 글레를 구하러 갔다. 이제 그녀가 그를 찾아 나선다.*
 
-바닐라 JS + 캔버스로 만든 사이버펑크 액션 플랫포머 **Montanha: Zero Day**의 비공식 한국어판입니다.
+바닐라 JS + 캔버스로 만든 사이버펑크 액션 플랫포머 **Montanha: Zero Day**의 비공식 한국어판입니다. 게임 코드·그림·소리는 원작 그대로이고, 이 저장소는 **화면 문구와 대사를 한국어 사전으로 덮어쓰는 일**만 합니다.
 
-- 배포(플레이): https://sigco3111.github.io/montanha-zero-day-ko/
-- 원작: **tiagovilasboas/montanha-zero-day** — https://github.com/tiagovilasboas/montanha-zero-day
-- 원작 데모: https://tiagovilasboas.github.io/montanha-zero-day/
-- 이 저장소: https://github.com/sigco3111/montanha-zero-day-ko
-
-## 원작 소개
-
-**네오삼파, 2099년.** 침략형 AI **널 리전(LEGIÃO NULL)**이 행성의 네트워크를 장악했습니다. 글레(Gle)는 납치되어 캡슐에 갇혔습니다.
-1스테이지에서는 제트팩·해킹 워치·보조 로봇 **BYTE**를 든 몬타냐를, 2·3스테이지에서는 황금 건틀릿과 빛의 부츠를 갖춘 글레를 조작합니다.
-터미널 해킹 퍼즐(순서·2진수·노드 그리드), 아군으로 돌릴 수 있는 터렛, EMP 펄스, 리듬으로 켜지는 펄스 빔, 그리고 보스 **TITAN**의 방화벽 페이즈까지 이어집니다.
-pc·모바일 브라우저 모두에서 동작하며, 키보드와 터치 패드를 함께 지원합니다.
-
-## 한글화 방식
-
-원작 코드(js/i18n.js)의 언어 체계를 그대로 쓰고, **ko 사전을 별도 파일로 더하는 방식**입니다. 원문(en/pt)은 손대지 않습니다.
-
-- `js/i18n.ko.js` — 한국어 사전. `KO.ui`(UI 111키) + `KO.lines`(대사 56줄, 키 = 포르투갈어 원문).
-- `js/i18n.js` — ko 언어 추가(약 10곳 패치): `import { KO }`, `UI.ko = KO.ui`, `LINES_KO`, `tr()`의 ko 분기, `detectLang()`, `applyDom()`, `toggleLang()`.
-- `tools/ko_build.py` — 원작 저장소에서 코드만 받아 위 패치를 재현하는 빌드 스크립트(패치 실패 시 리포트에 MISS로 남고 종료 코드 1).
-
-### 언어 바꾸기
-
-- 타이틀 화면의 언어 버튼이 **영어 → 한국어 → 포르투갈어 → 영어** 순으로 순환합니다.
-- 선택은 `localStorage`의 `mzd-lang`에 저장됩니다.
-- 저장된 선택이 없으면 **브라우저 언어가 한국어(ko)면 한국어**, 그 외에는 원작 규칙(브라질 시간대 + 포르투갈어 → pt, 나머지 → en)을 따릅니다.
-- 사전에 없는 문장은 영어 원문으로 표시되고 게임은 깨지지 않습니다.
-
-### 폰트
-
-캔버스 텍스트는 원작의 픽셀 웹폰트(Press Start 2P / VT323)를 씁니다. 한글 글리프가 없는 폰트라 한국어는 **시스템 한글 폰트**로 대체됩니다:
-
-`Apple SD Gothic Neo` → `Malgun Gothic` → `Noto Sans KR` → `Noto Sans CJK KR` → monospace
-
-- `css/style.css`에 `html[lang="ko"]` 블록을 추가해 UI 글꼴 우선순위를 바꾸고,
-- 캔버스 문자열(`ctx.font`)에도 같은 폴백을 넣었습니다.
-- OFL 픽셀 한글 폰트(Galmuri11 등)는 **싣지 않았습니다**: 라이선스 표기가 필요하고 파일이 커서, 우선은 시스템 폰트로 두었습니다. 원하면 `css/style.css`의 `html[lang="ko"]` 블록에 `@font-face`를 더하면 됩니다.
-
-## 라이선스와 에셋 처리 (중요)
-
-원작 `LICENSE` 전문:
-
-- **코드**: MIT License, Copyright (c) 2026 Tiago Vilas Boas. (이 저장소도 같은 MIT 조건을 유지하며, 원문 라이선스 파일을 `LICENSE`에 그대로 두었습니다.)
-- **에셋·이름·스토리**: `assets/`, `icons/`, `docs/screenshots/` 전체와 **Montanha·Gle·BYTE의 이름과 스토리**는 © 2026 Tiago Vilas Boas, **All rights reserved**.
-
-그래서 이 저장소는 **원작 이미지·소리·아이콘을 한 개도 복사하지 않습니다.** 대신:
-
-- `js/assets.js`의 `ASSET_BASE`가 원작 Pages(`https://tiagovilasboas.github.io/montanha-zero-day/`)를 가리키고, 게임은 실행 중에 그곳에서 `assets/*.webp`와 `assets/anims.json`을 **직접 불러옵니다**(핫링크). 저장소와 배포 산출물에는 ARR 파일이 없습니다.
-- 2026-11 기준 확인: 원작 Pages는 `access-control-allow-origin: *`를 보내므로 교차 출처 `fetch(anims.json)`와 `<img>` 로드가 모두 동작합니다. 에셋 33종 URL을 HEAD로 확인해 전부 200이었습니다(`docs/build-report.txt`).
-- 원작이 내려가거나 에셋 경로가 바뀌면 그림 없이 게임 로직만 남습니다. 그때는 `ASSET_BASE`만 고치면 됩니다.
-- 캔버스는 픽셀을 읽지 않으므로(getImageData 없음) 교차 출처 이미지로 화면이 오염되지 않습니다.
-
-번역문(한국어)은 MIT 코드 파일에 덧붙인 데이터로, 원작 대사·이름의 권리는 원작자에게 있습니다. **원작자가 내리라고 하면 저장소와 배포 페이지를 즉시 내립니다.**
-
-## 제거한 외부 기능
-
-- **Google Fonts**(fonts.googleapis.com / fonts.gstatic.com) 링크 제거 — 외부 서버 호출을 남기지 않기 위해서입니다.
-- **서비스 워커 / PWA**: `sw.js`, `manifest.webmanifest`, `icons/`를 싣지 않고 `main.js`의 `serviceWorker.register('sw.js')` 호출을 껐습니다. 오프라인 캐시가 원작 ARR 에셋을 내 저장소 오리진에 복제하는 구조를 피하려는 선택입니다. `앱 설치` 버튼은 자동으로 숨겨집니다.
-- 원작 코드에는 **분석·통계·텔레메트리 호출이 없습니다**(저장소 전체에서 외부 URL은 위 폰트뿐). 그래서 따로 걷어낼 것은 없었습니다.
-- 저장은 브라우저 `localStorage`(`montanha-zero-day-v1`)에만 남습니다.
-
-## 번역 범위
-
-| 영역 | 상태 |
+| | |
 |---|---|
-| UI 111키(타이틀·일시정지·미션맵·HUD·해킹 퍼즐·크레딧·언어 버튼) | 전부 번역 |
-| 대사·스테이지 이름·보스 대사 56줄 | 전부 번역 |
-| 아트에 그려진 글자(간판·타이틀 로고) | 원본 이미지 그대로(ARR, 수정 불가) |
+| 플레이(배포) | https://sigco3111.github.io/montanha-zero-day-ko/ |
+| 원작 | **tiagovilasboas/montanha-zero-day** — https://github.com/tiagovilasboas/montanha-zero-day |
+| 원작 데모(포르투갈어) | https://tiagovilasboas.github.io/montanha-zero-day/ |
+| 이 저장소 | https://github.com/sigco3111/montanha-zero-day-ko |
+| 용어집(고정 표기) | [docs/glossary.md](docs/glossary.md) |
 
-용어 고정표는 `docs/glossary.md`에 있습니다. 남은 작업: 캔버스에 박힌 이미지 속 텍스트, 그리고 원하면 OFL 픽셀 한글 폰트 도입.
+## 게임 소개
 
-## 번역 외 변경 (diff 요약)
+**네오삼파, 2099년.** 침략형 AI **널 리전(LEGIÃO NULL)**이 행성의 네트워크를 장악했습니다. 그 사령관 **TITAN**이 거리에 멀웨어 드론을 풀었고, **글레(Gle)**는 납치되어 암호화 캡슐에 갇힙니다.
 
-1. `js/assets.js`: `ASSET_BASE` 상수 + `assetPath`/`anims.json` 경로를 원작 Pages로.
-2. `js/i18n.js`: ko 언어 추가(11곳, 위 "한글화 방식" 참고).
-3. `js/main.js`: 서비스 워커 등록 제거.
-4. `css/style.css`: `--font-display`/`--font-body`에 한글 폴백, `html[lang="ko"]` 블록 추가.
-5. `js/*.js`: 캔버스 폰트 문자열에 한글 폴백 추가(1개 파일).
-6. `index.html`: Google Fonts 링크 3개, manifest 링크 1개, 아이콘 링크 2개 제거.
-7. 원작에서 `build.py`, `game.html`, `tools/`(아트 생성기), `docs/screenshots/`, `README.pt-BR.md`, dev.to 글은 가져오지 않았습니다(`index.html`은 원작 생성물을 그대로 받아 위 링크만 지웠습니다).
-8. 루트 절대경로 참조 0건 확인(하위 경로 배포 안전), 로컬 `assets/` 참조 0건 확인.
+- **1스테이지 — 세카팡의 지붕(Telhados do Cecapão).** 주인공은 **몬타냐**: 제트팩, 해킹 시계 **H4X 워치**, 보조 로봇 **BYTE**를 들고 지붕을 달립니다. 스테이지 끝에서 글레를 찾아내지만, TITAN의 발톱이 몬타냐를 낚아채고 글레가 풀려납니다.
+- **2·3스테이지 — 지하 404: 침수된 서버(Subsolo 404: Servidor Submerso), 커널 패닉: 코어(Kernel Panic: o Núcleo).** 이번에는 **글레**가 황금 건틀릿, 빛의 부츠, 분홍 BYTE를 들고 몬타냐를 찾아 나섭니다. 코어에서는 리듬에 맞춰 켜졌다 꺼지는 펄스 빔, 레이저 구간 오르기, 터렛 구간, 그리고 방화벽 페이즈가 있는 보스 **TITAN** 전이 이어집니다.
+- **엔딩.** 보스를 꺾은 글레가 TITAN의 키를 뽑아 코어 깊은 곳의 감방에서 몬타냐를 꺼냅니다.
+
+게임 요소: 터미널 해킹 퍼즐 3종(순서 · 2진수 · 노드 그리드), 아군으로 돌릴 수 있는 터렛, EMP 펄스, 터치 조작이 가능한 가로 화면 UI, 스테이지별 사운드트랙.
+
+## 한국어판 특징
+
+| 항목 | 내용 |
+|---|---|
+| 사전 항목 | `KO.ui` **111개**(UI 문자열 전부), `KO.lines` **57개**(대사·안내 문구 56개 + 장비 라벨 `BOTAS` 1개). 총 **168개** |
+| 언어 전환 | 타이틀 화면의 언어 버튼 한 개로 **한국어 → 포르투갈어 → 영어 → 한국어** 순환 |
+| 버튼 표기 | 버튼에는 *다음* 언어 이름이 보입니다(한국어일 때 `Português`, 포르투갈어일 때 `English`, 영어일 때 `한국어`) |
+| 기본 언어 | 저장된 선택이 없으면 **브라우저 언어가 한국어일 때 한국어**로 시작하고, 그 외에는 원작 규칙(브라우저 시간대가 브라질 + 포르투갈어 → 포르투갈어, 나머지 → 영어)을 따릅니다 |
+| 선택 저장 | `localStorage`의 `mzd-lang` |
+| 사전에 없는 문자열 | 영어 원문이 그대로 보이고 게임은 멈추지 않습니다 |
+| 폰트 | 픽셀 웹폰트에는 한글 글리프가 없으므로 한글은 시스템 한글 글꼴로 그려집니다(아래 "제거한 기능" 참고) |
+| 그림 속 글자 | 로고·간판처럼 이미지에 그려진 글자는 원작 아트라 그대로 나옵니다(ARR, 수정 불가) |
+
+## 번역 방식
+
+원작의 다국어 체계를 그대로 씁니다. 원문(영어 `UI.en`, 포르투갈어 `LINES`)은 **손대지 않고**, 한국어 사전을 별도 파일로 더해 값만 덮어씁니다.
+
+- **`js/i18n.ko.js`** — 한국어 사전. `KO.ui`(111키, 원작 `UI.en`과 같은 키) + `KO.lines`(57항목, 키 = 포르투갈어 원문). 대사는 원문을 키로 삼아 문장 단위로 치환하므로, 대사가 바뀌면 그 문장만 원문으로 돌아갑니다.
+- **`js/i18n.js`** — ko 언어를 붙이는 패치 10곳: `import { KO }`, `UI.ko = KO.ui`, `LINES`용 한국어 표, `tr()`의 ko 분기, `browserIsKorean()`, 저장된 선택 처리(`mzd-lang`), `detectLang()`의 ko 분기, `applyDom()`의 `<html lang="ko">`, 3단 `toggleLang()`, 언어 버튼 라벨.
+- **`tools/ko_build.py`** — 원작 저장소에서 코드만 받아 위 패치를 다시 입히는 빌드 스크립트.
+- **`docs/glossary.md`** — 고유명사·장비·퍼즐 용어와 문체 기준(짧은 명사형 버튼, 원작의 친근한 반말, `BYTE`/`TITAN`/`EP`/`XP`/`LV` 같은 표기는 원문 유지, 같은 원문은 항상 같은 한국어로).
+
+## 이미지와 소리 — 원작 Pages에서 직접 불러옵니다
+
+원작자는 **이미지·캐릭터·이름·스토리에 대한 모든 권리**를 갖고 있습니다(All rights reserved). 그래서 이 저장소는 원작의 그림·아이콘·오디오를 **한 파일도 복사하지 않았습니다**.
+
+- `js/assets.js`의 `ASSET_BASE`가 `https://tiagovilasboas.github.io/montanha-zero-day/`를 가리키고, 게임은 실행 중에 그곳에서 `assets/*.webp`와 애니메이션 메타데이터 `assets/anims.json`을 직접 받아 그립니다.
+- 저장소와 배포 산출물에는 ARR 파일이 없습니다. 코드만 MIT로 실려 있습니다.
+- 원작 Pages는 2026-11 기준 `access-control-allow-origin: *`를 보내므로 교차 출처 `fetch(anims.json)`와 `<img>` 로드가 모두 동작합니다. 에셋 33개 URL을 HEAD로 확인해 전부 200이었습니다(`docs/build-report.txt`).
+- 캔버스는 픽셀을 읽지 않으므로(`getImageData` 없음) 교차 출처 이미지로 화면이 오염되지 않습니다.
+- **한계**: 원작 사이트가 내려가거나 에셋 경로가 바뀌면 **그림 없이 게임 로직만** 남습니다. 그때는 `ASSET_BASE` 한 줄만 고치면 됩니다.
+- **소리**는 원작 코드가 브라우저 WebAudio로 실시간 합성합니다. 오디오 파일이 없으니 원격 의존도 없습니다.
+
+## 제거한 기능과 이유
+
+- **Google Fonts 링크**(`fonts.googleapis.com` / `fonts.gstatic.com`) 제거 — 이 페이지가 외부 서버를 부르지 않게 하려는 것입니다. 대가로 원작의 픽셀 웹폰트는 내려받지 않으므로, 글자는 CSS·캔버스 폰트 스택의 다음 순위 글꼴로 그려집니다(한글은 시스템 한글 글꼴).
+- **서비스 워커 / PWA 오프라인 저장** — `sw.js`, `manifest.webmanifest`, `icons/`를 싣지 않고 `js/main.js`의 서비스 워커 등록 호출도 껐습니다. 오프라인 캐시는 원작의 ARR 에셋을 이 저장소 오리진에 복제해 두는 구조라, 권리 처리 원칙과 맞지 않습니다. 그래서 `앱 설치` 버튼은 나타나지 않습니다.
+- **분석·통계·텔레메트리** — 원작 코드에 없어서 걷어낼 것이 없었습니다. 이 판도 아무것도 보내지 않습니다.
+- **저장**은 브라우저 `localStorage`(`montanha-zero-day-v1`)에만 남습니다.
+
+## 조작법
+
+| 동작 | 키보드 | 터치 |
+|---|---|---|
+| 이동 | `←` `→` 또는 `A` `D` | 화면 왼쪽 방향 패드 |
+| 점프 | `Z`, `Space`, `↑`, `W` | `점프` |
+| 공중 부양(제트팩 / 빛의 부츠) | 공중에서 점프 키를 누르고 있기 | `점프`를 누르고 있기 |
+| 사격 | `X` 또는 `J` (누르면 차지, 떼면 관통탄) | `사격` |
+| 해킹 | `C` 또는 `K` | `해킹` |
+| 일시정지 | `Esc` 또는 `P` | 오른쪽 위 `II` |
+| 대사 넘기기 | `Enter`, 점프, 사격 | 버튼 탭 |
+
+해킹은 빨간 터렛 가까이에서 누르면 터렛을 아군으로 돌리고, 노란 터미널 앞에서 누르면 퍼즐을 열며, 아무것도 없는 곳에서 누르면 EMP 펄스를 터뜨립니다. 휴대폰은 가로 전용이라 세로로 들면 "휴대폰을 가로로" 화면이 뜨고 게임이 멈춥니다.
+
+## 로컬에서 실행하기
+
+빌드 단계가 없는 정적 사이트입니다. `file://`로 열면 ES 모듈과 `fetch`가 막히므로 폴더를 서버로 띄우세요.
+
+```bash
+python3 -m http.server 8000
+# http://localhost:8000
+```
+
+그림은 원작 Pages에서 오므로 인터넷 연결이 필요합니다.
 
 ## 다시 빌드하기
 
 ```bash
-python3 tools/ko_build.py     # 원작을 받아 코드 반영 + 패치 + 검증 + docs/build-report.txt
+python3 tools/ko_build.py
 ```
-로컬에서 미리 보려면 `python3 -m http.server 8000` 후 `http://localhost:8000`(원작 에셋은 원격에서 로드됩니다).
 
-## 확인한 것 / 확인하지 못한 것
+원작 저장소에서 코드 파일만 받아(현재 기준 원작 커밋 `d11866be57ff770ce88680eb87c73458764604f6`, 26개 파일) 한국어 패치를 다시 입히고, 패치 성공/실패와 에셋 상태를 `docs/build-report.txt`에 남깁니다. 패치가 어긋나면 리포트에 `MISS`로 남습니다.
 
-- 확인: 배포 URL에서 타이틀 화면·오프닝 컷신·인게임 대사가 한국어로 표시됨, 원작 아트가 원격에서 정상 로드됨, 언어 버튼 3단 순환, 에셋 33종 200 응답, CORS `*`.
-- 확인하지 못함: 2·3스테이지 끝까지의 전체 플레이(캔버스 액션이라 자동 클릭으로 보스·엔딩까지 진행하지 못했습니다), 실제 모바일 기기 터치 조작, 해킹 퍼즐 3종의 문구 배치(줄바꿈) 미세 조정.
+`index.html`은 원작이 `build.py`로 생성한 결과물을 그대로 받아 링크만 지운 것이라, 이 저장소에서는 원작의 `build.py`(Pillow 사용)를 실행하지 않습니다.
+
+## 확인한 것과 확인하지 못한 것
+
+**확인한 것**
+
+- 배포 페이지 타이틀 화면(시작·소리·언어 버튼, 태그라인, 키 안내)이 한국어로 표시됨(2026-11-15 직접 확인). 인게임 대사와 오프닝 컷신은 이번 점검에서 직접 보지 못했습니다.
+- 언어 버튼으로 **한국어 → 포르투갈어 → 영어** 전환을 실제로 확인했고, 버튼 라벨이 다음 언어 이름으로 바뀌는 것도 확인. 영어 → 한국어 복귀는 누르지 않아 미확인입니다(원작 순환 구조 기준).
+- 사전 항목 수: `KO.ui` 111개, `KO.lines` 57개(저장소의 `js/i18n.ko.js`를 세어 확인).
+- 원작 에셋 33개 URL 200 응답, CORS `*`, 루트 절대경로 참조 0건, 로컬 에셋 경로 0건(`docs/build-report.txt`).
+
+**확인하지 못한 것**
+
+- **보스전과 엔딩까지의 완주.** 캔버스 액션이라 자동 조작으로 끝까지 진행하지 못했습니다. 2·3스테이지 후반 대사와 보스 방화벽 안내 문구는 화면에 띄워 보지 못한 상태입니다.
+- **실제 모바일 기기 터치 조작.** 터치 패드·가로 전환·전체 화면 버튼은 코드로만 확인했습니다.
+- **Esc 일시정지 안내의 겹침.** 키 안내 문구가 대사창을 일부 가릴 수 있어, 작은 화면에서는 안내가 대사 위에 겹쳐 보일 수 있습니다.
 
 ## 크레딧
 
-- 원작 게임·코드·스토리·아트: **Tiago Vilas Boas** (https://github.com/tiagovilasboas) — 아트는 Artlist(Nano Banana 2, Seedance)로 제작, 음악·효과음은 WebAudio 실시간 합성.
-- 한국어 번역·빌드: sigco3111
-- 이 저장소는 비공식 팬 번역이며 원작자와 무관합니다.
+- **원작 게임·코드·스토리·아트**: **Tiago Vilas Boas** — https://github.com/tiagovilasboas/montanha-zero-day
+- **아트 제작**: 원작자 프롬프트와 참고 사진을 바탕으로 **Artlist** 사용 — 이미지는 Nano Banana 2, 애니메이션 클립은 Seedance 1.5와 2.0.
+- **개발 도움**: 원작자는 Claude Opus 5.5(Cowork)의 도움을 받았다고 밝히고 있습니다.
+- **음악·효과음**: 브라우저 WebAudio로 실시간 합성. 오디오 파일은 없습니다.
+- **사용 라이브러리**: 없음. 원작은 빌드 도구도 패키지 관리자도 쓰지 않는 바닐라 JS + 캔버스이고(`package.json`·`node_modules`·번들러 없음), 이 저장소도 같은 상태입니다. 외부 폰트 링크도 제거해 폰트 라이선스 의존이 없습니다.
+- **한국어 번역·빌드**: sigco3111
+- 게임 안에서는 타이틀 화면과 엔딩에 "만든이 Tiago Vilas Boas"가 표시되고, 엔딩 크레딧 화면에 게임/아트/음악/도구/후원 항목이 나옵니다.
+
+## 라이선스와 원작 표기
+
+- **코드**: MIT License, Copyright (c) 2026 Tiago Vilas Boas. 원문 전문은 [`LICENSE`](LICENSE)에 그대로 두었습니다(원작 LICENSE와 같은 내용).
+- **그림·캐릭터·이름·스토리**: `assets/`, `icons/`, `docs/screenshots/`, 그리고 Montanha·Gle·BYTE의 이름과 스토리는 © 2026 Tiago Vilas Boas, **All rights reserved**. 이 저장소는 그것들을 복사·재배포하지 않고 원작 Pages에서 불러오기만 합니다.
+- **번역문**: MIT 코드 파일에 덧붙인 데이터로 배포하되, 원작 대사·이름에 대한 권리는 원작자에게 있습니다.
+- **삭제 요청**: 원작자가 내려 달라고 하면 저장소와 배포 페이지를 즉시 내립니다.
+
+이 저장소는 비공식 팬 번역이며 원작자와 무관합니다.
+
+## 번역 외 변경 사항
+
+1. `js/assets.js`: `ASSET_BASE` 상수 추가, 이미지·`anims.json` 경로를 원작 Pages로.
+2. `js/i18n.js`: ko 언어 추가(위 "번역 방식"의 10곳).
+3. `js/main.js`: 서비스 워커 등록 호출 제거.
+4. `css/style.css`: `--font-display`/`--font-body`에 한글 폴백, `html[lang="ko"]` 블록 추가.
+5. `js/*.js`: 캔버스 폰트 문자열(`ctx.font`)에 한글 폴백 추가(1개 파일).
+6. `index.html`: Google Fonts 링크, manifest 링크, 아이콘 링크 제거.
+7. 원작에서 `build.py`, `game.html`, `sw.js`, `manifest.webmanifest`, `icons/`, `assets/`, `docs/screenshots/`, `README.pt-BR.md`, dev.to 글, 아트 생성 도구는 가져오지 않았습니다.
+
+## 검증 기록
+
+- 2026-11-14 빌드 리포트: 원작 커밋 `d11866be57ff770ce88680eb87c73458764604f6`에서 코드 26개 파일 반입. 패치 항목 18개 `OK`. `index.html`의 아이콘 링크 제거 항목만 `MISS(2/1)`(기대 1개에 2개 일치)로 기록됐고, 리포트의 `FAILED PATCHES`는 0입니다.
+- 2026-11-14 에셋 점검: 33개 URL HEAD 확인, 문제 0건. `access-control-allow-origin: *` 확인. `sw.js`·`manifest.webmanifest`·`build.py`·`game.html`이 저장소에 없음을 확인.
+- 2026-11-15 배포 페이지 확인: 한국어 타이틀 화면 표시, 언어 버튼 ko→pt→en 전환 동작(en→ko 미확인).
+- 2026-11-15 사전 집계: `KO.ui` 111개, `KO.lines` 57개.
