@@ -102,7 +102,7 @@ It fetches only the code files from the original repository (currently upstream 
 **Checked**
 
 - On the deployed page, the title screen (start, sound and language buttons, tagline, key hint) displays in Korean (verified 2026-11-15). In-game dialogue and the opening cutscene were not seen in this check.
-- The language button really switches **Korean → Portuguese → English**, and the button label changes to the next language name. The return from English to Korean was not clicked in this check (the cycle follows the original code).
+- Clicking the language button really cycles **Korean → Portuguese → English → Korean**, and the button label changes to the next language name.
 - Dictionary size: `KO.ui` 111 entries and `KO.lines` 57 entries, counted in `js/i18n.ko.js`.
 - All 33 original asset URLs answer 200, CORS is `*`, there are no root-absolute references and no local asset paths (`docs/build-report.txt`).
 
@@ -145,5 +145,5 @@ This is an unofficial fan translation, unaffiliated with the original author.
 
 - 2026-11-14 build: 26 code files taken from upstream commit `d11866be57ff770ce88680eb87c73458764604f6`; 18 patch checks `OK`; the icon-link removal (`drop-icon-links`) was logged as `MISS(2/1)` (2 matches against 1 expected), and the report's `FAILED PATCHES` count is 0.
 - 2026-11-14 asset check: 33 URLs HEAD-checked, 0 problems, `access-control-allow-origin: *` present; `sw.js`, `manifest.webmanifest`, `build.py` and `game.html` confirmed absent from the repository.
-- 2026-11-15 deployed page: Korean title screen displayed, three-way language cycle working.
+- 2026-11-15 deployed page: Korean title screen displayed, three-way language cycle (ko→pt→en→ko) working.
 - 2026-11-15 dictionary count: `KO.ui` 111 entries, `KO.lines` 57 entries.
